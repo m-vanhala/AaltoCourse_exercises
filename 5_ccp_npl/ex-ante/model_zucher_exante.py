@@ -105,12 +105,17 @@ class zurcher():
         # Euler constant
         eulerc = np.euler_gamma
 
-        # INSET HERE
-        
-        #self.Vsigma = )
+        # INSERT HERE
+        value_keep = -self.cost + eulerc-np.log(pk) # pk is readily input here
+        value_replace = -self.RC - self.cost[0] + eulerc - np.log(1-pk) 
+        self.Vsigma = np.log(np.exp(value_keep) + np.exp(value_replace)) + eulerc
 
     def lambdaa(self):
-        # INSET HERE
+        # INSERT HERE
+        value_keep = -self.cost + self.beta*self.P1@self.Vsigma
+        value_replace = -self.RC - self.cost[0]  + self.beta*self.P1[0,:]@self.Vsigma 
+        pk=1/(1+np.exp(value_replace-value_keep)) # returns the probability to keep
+
         return  pk
     
     def read_busdata(self, bustypes = [1,2,3,4]): 

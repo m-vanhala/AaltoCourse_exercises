@@ -57,7 +57,13 @@ def ll(theta, model, data, pk0,out=1):
     model.create_grid()
 
     # Solve the model
-    # INSET HERE
+    pk = model.psi(pk0,model.Finv)
+
+    # from data 
+    pKdata = pk[data.x] 
+
+    # Log-likelihood
+    log_lik = np.log(data.dk*pKdata+(1-pKdata)*data.dr) 
 
     if out == 2:
         return pk, pKdata

@@ -55,10 +55,12 @@ def ll(theta, model, solver,data, pnames, out=1): # out=1 solve optimization
     model=updatepar(model,pnames,theta)
     model.p = np.abs(model.p)    # helps BHHH which is run as unconstrained optimization
     model.create_grid()
-    ev0 = ev
+    ev0 = ev # initialization
 
     # Solve the model
-    ev, pk, dev = solver.poly(model.bellman, V0=ev0 ,beta=model.beta, output=3)
+    ev, pk, dev = solver.poly(model.bellman, V0=ev0 ,beta=model.beta, output=3) 
+    # => full solution method; solves the full model for each value of the parameters
+    # Coding note: perhaps easier if the solver took the entire model as an input
 
     # Evaluate likelihood function
     lik_pr = pk[x]
@@ -68,7 +70,8 @@ def ll(theta, model, solver,data, pnames, out=1): # out=1 solve optimization
     if theta.size>2:
         p = np.append(model.p,1-np.sum(model.p))
         if any(p<=0):
-            log_lik -= 100000*p[dx1]
+            log_lik -= 100000*p[dx1] # a penalty function for avoiding negative probabilities
+                                     # a constrained optimizer might be better 
         else:
             log_lik += np.log(p[dx1])
         
