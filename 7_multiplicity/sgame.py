@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 from dataclasses import dataclass
 #%%
 @dataclass(init=True)
-class sgame():
+class sgame(): # similar to sgame.alpha = 5 etc
   '''Simple static entry game model class, see Su2014'''
   # default model parameters
   alpha: float = 5      # parameter for monopoly profits
@@ -68,9 +68,9 @@ class sgame():
     '''
 
     # internal functions (all fxp_eqb defined inside internal functions, careful)
-    def find_stable_eqb(p00):
+    def find_stable_eqb(p00): # this saves effort from re-inputting the same arguments
       '''Successive approximations'''
-      p0 = p00
+      p0 = p00 # initialize
       for iter in range(self.maxiter):
         p = fn(p0)
         err = abs(p - p0)
